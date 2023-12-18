@@ -559,7 +559,7 @@
          <locale language="English" country="Australia"/>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="tab_status">
          <attribute name="title">
@@ -895,44 +895,6 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QGroupBox" name="groupBox">
-               <property name="title">
-                <string>楼层</string>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <property name="spacing">
-                 <number>8</number>
-                </property>
-                <property name="leftMargin">
-                 <number>6</number>
-                </property>
-                <property name="topMargin">
-                 <number>8</number>
-                </property>
-                <property name="rightMargin">
-                 <number>6</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item>
-                 <widget class="QPushButton" name="btn_floor_2">
-                  <property name="text">
-                   <string>上楼</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="btn_floor">
-                  <property name="text">
-                   <string>下楼</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
               <widget class="QWidget" name="widget_001" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
@@ -975,6 +937,20 @@
                  </spacer>
                 </item>
                </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_floor">
+               <property name="text">
+                <string>上楼</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_floor_2">
+               <property name="text">
+                <string>下楼</string>
+               </property>
               </widget>
              </item>
              <item>

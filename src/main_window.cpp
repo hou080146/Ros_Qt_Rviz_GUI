@@ -351,7 +351,7 @@ void MainWindow::initUis()
     ui->btn_floor->setEnabled(false);
     ui->btn_floor_2->setEnabled(false);
 
-    //floor
+//    floor
 //    ui->floor_Slider->setMaximum(main_setting.value("Floor","2").toInt());
     //liner
     ui->horizontalSlider_raw->setValue(main_setting.value("Slider_raw","50").toInt());
@@ -996,7 +996,7 @@ void cyrobot_monitor::MainWindow::Rosconnect()
             ui->tab_manager->setTabEnabled(1,false);
             ui->btn_floor->setEnabled(false);
             ui->btn_floor_2->setEnabled(false);
-            ui->tabWidget->setTabEnabled(0,false);
+//            ui->tabWidget->setTabEnabled(0,false);
 //            ui->tabWidget->setTabEnabled(1,false);
             ui->widget_3->setEnabled(false);
             return ;
