@@ -57,7 +57,7 @@ QRviz::QRviz(QVBoxLayout *layout,QString node_name)
 
     manager_->initialize();
     tool_manager_->initialize();
-    plugin = new rviz::PluginlibFactory<rviz::Tool>("rviz_plugins", "rviz::Tool");//加载插件，只要new了就行了
+//    plugin = new rviz::PluginlibFactory<rviz::Tool>("rviz_plugins", "rviz::Tool");//加载插件，只要new了就行了
 
     view_manager_ = manager_->getViewManager();
 //    view_manager_->initialize();
@@ -138,7 +138,7 @@ QRviz::~QRviz()
     
     if (current_tool != nullptr) current_tool = nullptr;
     if (tool_manager_ != nullptr) tool_manager_ = nullptr;
-    delete plugin;
+//    delete plugin;
 
     
     ROS_INFO("RVIZ is shutdown");

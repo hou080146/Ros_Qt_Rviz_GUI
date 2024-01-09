@@ -130,7 +130,7 @@ private:
     rviz::ViewManager *view_manager_;
 
     //插件加载
-    rviz::PluginlibFactory<rviz::Tool> *plugin;
+//    rviz::PluginlibFactory<rviz::Tool> *plugin;
 
     
     QVBoxLayout *layout;

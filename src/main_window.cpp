@@ -357,6 +357,9 @@ void MainWindow::initUis()
     ui->horizontalSlider_raw->setValue(main_setting.value("Slider_raw","50").toInt());
     ui->horizontalSlider_linear->setValue(main_setting.value("Slider_linear","50").toInt());
 
+
+    ui->set_3dgoal_btn->hide();
+
 }
 
 void MainWindow::initData()
