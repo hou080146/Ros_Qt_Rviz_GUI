@@ -18,6 +18,7 @@
 #include <sstream>
 #include "../include/cyrobot_monitor/qnode.hpp"
 #include <QDebug>
+
 /*****************************************************************************
 ** Namespaces
 *****************************************************************************/
@@ -39,6 +40,12 @@ QNode::QNode(int argc, char** argv ) :
     pose_topic=topic_setting.value("topic_amcl","amcl_pose").toString();
     power_min=topic_setting.value("power_min","10").toString();
     power_max=topic_setting.value("power_max","12").toString();
+
+    //qnode图像显示订阅video话题
+    QSettings video_topic_setting("video_topic","cyrobot_monitor");
+    video_topics00=video_topic_setting.value("videotopics00","image00").toString();
+    video_topics01=video_topic_setting.value("videotopics01","image01").toString();
+//    qDebug() << "video_topics00: " << video_topics00;
 }
 
 QNode::~QNode() {
@@ -73,6 +80,7 @@ bool QNode::init()
     cmd_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
     //楼层话题
 //    floor_pub = n.advertise<std_msgs::Int8>("floor", 10);
+
     start();
     return true;
 }
@@ -101,6 +109,12 @@ bool QNode::init(const std::string &master_url, const std::string &host_url)
     cmd_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1000);
     //楼层话题
     floor_pub = n.advertise<std_msgs::Int8>("floor", 10);
+
+    image_transport::ImageTransport it_(n);
+//    qDebug() << "video_topics00: " << video_topics00;
+    img_sub00 = it_.subscribe(video_topics00.toStdString(), 10, &QNode::imageCallback0,this);
+    img_sub01 = it_.subscribe(video_topics01.toStdString(), 10, &QNode::imageCallback1,this);
+
     start();
     return true;
 }
@@ -260,26 +274,20 @@ void QNode::run() {
 // image_transport::Publisher pub = it.advertise("out_image_base_topic", 1);
 // https://blog.csdn.net/weixin_46600400/article/details/116659272
 
- void QNode::Sub_Image(QString topic,int frame_id)
- {
-      ros::NodeHandle n;
-      image_transport::ImageTransport it_(n);
-     switch (frame_id) {
-         case 0:
-            image_sub0=it_.subscribe(topic.toStdString(),100,&QNode::imageCallback0,this);
-         break;
-         case 1:
-             image_sub1=it_.subscribe(topic.toStdString(),100,&QNode::imageCallback1,this);
-          break;
-         case 2:
-             image_sub2=it_.subscribe(topic.toStdString(),100,&QNode::imageCallback2,this);
-          break;
-         case 3:
-             image_sub3=it_.subscribe(topic.toStdString(),100,&QNode::imageCallback3,this);
-          break;
-     }
-     ros::spinOnce();
- }
+// void QNode::Sub_Image(QString topic,int frame_id)
+// {
+////      ros::NodeHandle n;
+////      image_transport::ImageTransport it_(n);
+//     switch (frame_id) {
+//         case 0:
+//            image_sub0=it_.subscribe(topic.toStdString(),100,&QNode::imageCallback0,this);
+//         break;
+//         case 1:
+//             image_sub1=it_.subscribe(topic.toStdString(),100,&QNode::imageCallback1,this);
+//          break;
+//     }
+//     ros::spinOnce();
+// }
 
  //图像话题的回调函数
  void QNode::imageCallback0(const sensor_msgs::ImageConstPtr& msg)
@@ -317,40 +325,7 @@ void QNode::run() {
          return;
        }
  }
- //图像话题的回调函数
- void QNode::imageCallback2(const sensor_msgs::ImageConstPtr& msg)
- {
-     cv_bridge::CvImagePtr cv_ptr;
-     try
-       {
-         //深拷贝转换为opencv类型
-         cv_ptr = cv_bridge::toCvCopy(msg, msg->encoding);
-         QImage im=Mat2QImage(cv_ptr->image);
-         emit Show_image(2,im);
-       }
-       catch (cv_bridge::Exception& e)
-       {
-         log(Error,("video frame2 exception: "+QString(e.what())).toStdString());
-         return;
-       }
- }
- //图像话题的回调函数
- void QNode::imageCallback3(const sensor_msgs::ImageConstPtr& msg)
- {
-     cv_bridge::CvImagePtr cv_ptr;
-     try
-       {
-         //深拷贝转换为opencv类型
-         cv_ptr = cv_bridge::toCvCopy(msg, msg->encoding);
-         QImage im=Mat2QImage(cv_ptr->image);
-         emit Show_image(3,im);
-       }
-       catch (cv_bridge::Exception& e)
-       {
-         log(Error,("video frame3 exception: "+QString(e.what())).toStdString());
-         return;
-       }
- }
+
 
  //将图像转换为Qimage
  QImage QNode::Mat2QImage(cv::Mat const& src)

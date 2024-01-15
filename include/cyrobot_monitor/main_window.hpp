@@ -155,6 +155,7 @@ private slots:
         void Rosdisconnect();
           
         void Rosconnect();
+        void slot_show_image(int frame_id, QImage image);
 
 
 signals:
@@ -174,6 +175,8 @@ private:
         bool AskInform(QString);
 
         void initVedio();
+
+
         
         QNode qnode;
 

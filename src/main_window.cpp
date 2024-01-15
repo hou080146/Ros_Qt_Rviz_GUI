@@ -308,6 +308,7 @@ void MainWindow::initVedio()
 //    connect(ffmpeg3,SIGNAL(NoVedio()),this,SLOT(UpdataNoVedio3()));
 //    connect(ffmpeg4,SIGNAL(NoVedio()),this,SLOT(UpdataNoVedio4()));
 
+
     rtsp1=new RtspThread(this);
     rtsp1->setffmpeg(ffmpeg1);
     rtsp2=new RtspThread(this);
@@ -316,7 +317,32 @@ void MainWindow::initVedio()
     rtsp3->setffmpeg(ffmpeg3);
     rtsp4=new RtspThread(this);
     rtsp4->setffmpeg(ffmpeg4);
+
+
+
+
+
 }
+
+
+
+
+
+
+void MainWindow::slot_show_image(int frame_id, QImage image)
+{
+    switch (frame_id)
+    {
+    case 0:
+        ui->label_image00->setPixmap(QPixmap::fromImage(image).scaled(ui->label_image00->width(),ui->label_image00->height()));
+        break;
+    case 1:
+        ui->label_image01->setPixmap(QPixmap::fromImage(image).scaled(ui->label_image01->width(),ui->label_image01->height()));
+        break;
+    }
+}
+
+
 
 //初始化UI
 void MainWindow::initUis()
@@ -436,9 +462,7 @@ void MainWindow::connections()
     QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(slot_rosShutdown()));
     QObject::connect(&qnode, SIGNAL(Master_shutdown()), this, SLOT(slot_rosShutdown()));
 
-    //connect速度的信号，用来更新仪表盘
-    connect(&qnode,SIGNAL(speed_x(double)),this,SLOT(slot_speed_x(double)));
-//    connect(&qnode,SIGNAL(speed_y(double)),this,SLOT(slot_speed_y(double)));
+
     //电源的信号
     connect(&qnode,SIGNAL(power(float)),this,SLOT(slot_power(float)));
     //机器人位置信号,用于状态条显示和返航点
@@ -447,6 +471,8 @@ void MainWindow::connections()
 //    connect(ui->quick_cmd_add_btn,SIGNAL(clicked()),this,SLOT(quick_cmd_add()));
 //    connect(ui->quick_cmd_remove_btn,SIGNAL(clicked()),this,SLOT(quick_cmd_remove()));
 
+    //qnode图像显示订阅video话题
+    connect(&qnode,SIGNAL(Show_image(int,QImage)),this,SLOT(slot_show_image(int,QImage)));
 
     //设置2D Pose
     connect(ui->set_pos_btn,SIGNAL(clicked()),this,SLOT(slot_set_2D_Pos()));

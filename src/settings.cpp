@@ -78,6 +78,14 @@ void Settings::initForm()
     on_cbx_style_currentIndexChanged(m_style);
 
 
+    //qnode图像显示订阅video话题
+    QSettings video_topic_setting("video_topic","cyrobot_monitor");
+    QString video_topics00=video_topic_setting.value("videotopics00").toString();
+    QString video_topics01=video_topic_setting.value("videotopics01").toString();
+
+    ui->lineEdit_image00->setText(video_topics00);
+    ui->lineEdit_image01->setText(video_topics01);
+
 
 
     if(main_setting.value("Rviz_AutoWR", false).toBool() == true)
@@ -176,6 +184,13 @@ void Settings::slot_ok_btn_click()
 //    ui->cmb_targetFrame_2->setCurrentIndex(view_setting.value("targetFrame1","").toInt());
 //    ui->lineEdit_scale->setValue(view_setting.value("scale","").toDouble());
 //    ui->lineEdit_Angle->setValue(view_setting.value("angle","").toDouble());
+
+
+    //qnode图像显示订阅video话题
+    QSettings video_topic_setting("video_topic","cyrobot_monitor");
+    video_topic_setting.setValue("videotopics00",ui->lineEdit_image00->text());
+    video_topic_setting.setValue("videotopics01",ui->lineEdit_image01->text());
+
 
     //保存地图配置
     if(ui->cbx_rviz_autoRW->checkState() == true)

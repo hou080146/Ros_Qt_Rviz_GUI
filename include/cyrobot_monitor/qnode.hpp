@@ -99,6 +99,8 @@ private:
     ros::Publisher goal_pub;
     ros::Publisher cmd_pub;
     ros::Publisher floor_pub;
+    image_transport::Subscriber img_sub00;
+    image_transport::Subscriber img_sub01;
     QStringListModel logging_model;
     //图像订阅
     image_transport::Subscriber image_sub0;
@@ -115,15 +117,16 @@ private:
     QString pose_topic;
     QString power_max;
     QString power_min;
+    QString video_topics00;
+    QString video_topics01;
     QImage Mat2QImage(cv::Mat const& src);
     void poseCallback(const geometry_msgs::PoseWithCovarianceStamped& pos);
     void speedCallback(const nav_msgs::Odometry::ConstPtr& msg);
     void powerCallback(const std_msgs::Float32& message_holder);
     void imageCallback0(const sensor_msgs::ImageConstPtr& msg);
     void imageCallback1(const sensor_msgs::ImageConstPtr& msg);
-    void imageCallback2(const sensor_msgs::ImageConstPtr& msg);
-    void imageCallback3(const sensor_msgs::ImageConstPtr& msg);
     void myCallback(const std_msgs::Float64& message_holder);
+
 };
 
 }  // namespace cyrobot_monitor
