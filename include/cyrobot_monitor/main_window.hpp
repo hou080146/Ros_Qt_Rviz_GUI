@@ -99,8 +99,6 @@ protected:
       *******************************************/
         void on_actionAbout_triggered();//没用
 
-        void slot_speed_x(double x);
-        void slot_speed_y(double y);
         void slot_power(float p);
         void slot_rosShutdown();
 //        void quick_cmds_check_change(int);
@@ -112,7 +110,7 @@ protected:
         ** Manual connections
         *******************************************/
 
-        void slot_cmd_control();
+
         void slot_tab_manage_currentChanged(int);
         void slot_tab_Widget_currentChanged(int);
         void slot_choose_topic(QTreeWidgetItem *choose, QString name);
@@ -149,9 +147,7 @@ private slots:
         void on_btn_floor_clicked();
 
 private slots:
-        void on_horizontalSlider_linear_valueChanged(int value);
 
-        void on_horizontalSlider_raw_valueChanged(int value);
 
         //设置界面
         void on_btn_config_clicked();
@@ -180,10 +176,7 @@ private:
         void initVedio();
         
         QNode qnode;
-//        CCtrlDashBoard *m_DashBoard_x;
-//        CCtrlDashBoard *m_DashBoard_y;
-        DashBoard *m_DashBoardx;
-//        DashBoard *m_DashBoardy;
+
 
         switchbutton *m_switchbutton;
 //        QProcess *quick_cmd = nullptr;

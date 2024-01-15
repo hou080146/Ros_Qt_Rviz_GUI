@@ -324,15 +324,7 @@ void MainWindow::initUis()
     QSettings main_setting("topic_setting","cyrobot_monitor");
 
     setWindowIcon(QIcon(":/images/robot.png"));
-    ui->widget_3->setEnabled(false);
 
-
-    m_switchbutton = new switchbutton(ui->btn_light_widget);
-    m_switchbutton->setGeometry(ui->btn_light_widget->rect());
-
-    m_DashBoardx =new DashBoard(ui->widget_speed_x);
-    m_DashBoardx->setGeometry(ui->widget_speed_x->rect());
-    m_DashBoardx->set_speed(0);
     /*m_DashBoardy =new DashBoard(ui->widget_speed_y);
     m_DashBoardy->setGeometry(ui->widget_speed_y->rect());
     m_DashBoardy->set_speed(0)*/;
@@ -354,9 +346,6 @@ void MainWindow::initUis()
 //    floor
 //    ui->floor_Slider->setMaximum(main_setting.value("Floor","2").toInt());
     //liner
-    ui->horizontalSlider_raw->setValue(main_setting.value("Slider_raw","50").toInt());
-    ui->horizontalSlider_linear->setValue(main_setting.value("Slider_linear","50").toInt());
-
 
     ui->set_3dgoal_btn->hide();
 
@@ -458,15 +447,7 @@ void MainWindow::connections()
 //    connect(ui->quick_cmd_add_btn,SIGNAL(clicked()),this,SLOT(quick_cmd_add()));
 //    connect(ui->quick_cmd_remove_btn,SIGNAL(clicked()),this,SLOT(quick_cmd_remove()));
 
-    //绑定速度控制按钮
-    connect(ui->pushButton_i,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_u,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_o,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_j,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_l,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_m,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_back,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
-    connect(ui->pushButton_backr,SIGNAL(clicked()),this,SLOT(slot_cmd_control()));
+
     //设置2D Pose
     connect(ui->set_pos_btn,SIGNAL(clicked()),this,SLOT(slot_set_2D_Pos()));
     //设置2D goal
@@ -651,160 +632,7 @@ void MainWindow::slot_tab_Widget_currentChanged(int index)
 
     }
 }
-//速度控制相关按钮处理槽函数
-void MainWindow::slot_cmd_control()
-{
 
-    QPushButton* btn=qobject_cast<QPushButton*>(sender());
-    char key=btn->text().toStdString()[0];
-    //速度
-    float liner=ui->horizontalSlider_linear->value()*0.01f;
-    float turn=ui->horizontalSlider_raw->value()*0.01f;
-    bool is_all=ui->checkBox_use_all->isChecked();
-    switch (key) {
-        case 'u':
-            qnode.move_base(is_all?'U':'u',liner,turn);
-        break;
-        case 'i':
-            qnode.move_base(is_all?'I':'i',liner,turn);
-        break;
-        case 'o':
-            qnode.move_base(is_all?'O':'o',liner,turn);
-        break;
-        case 'j':
-            qnode.move_base(is_all?'J':'j',liner,turn);
-        break;
-        case 'l':
-            qnode.move_base(is_all?'L':'l',liner,turn);
-        break;
-        case 'm':
-            qnode.move_base(is_all?'M':'m',liner,turn);
-        break;
-        case ',':
-            qnode.move_base(is_all?'<':',',liner,turn);
-        break;
-        case '.':
-            qnode.move_base(is_all?'>':'.',liner,turn);
-        break;
-    }
-}
-
-//快捷指令删除按钮
-//void MainWindow::quick_cmd_remove()
-//{
-//    QTreeWidgetItem *curr=ui->treeWidget_quick_cmd->currentItem();
-//    //没有选择节点
-//    if(curr == nullptr) return;
-//    //获取父节点
-//    QTreeWidgetItem* parent=curr->parent();
-//    //如果当前节点就为父节点
-//    if(parent == nullptr)
-//    {
-//        ui->treeWidget_quick_cmd->takeTopLevelItem(ui->treeWidget_quick_cmd->indexOfTopLevelItem(curr));
-//        delete curr;
-//    }
-//    else{
-//        ui->treeWidget_quick_cmd->takeTopLevelItem(ui->treeWidget_quick_cmd->indexOfTopLevelItem(parent));
-//        delete parent;
-//    }
-
-
-//}
-//快捷指令添加按钮
-//void MainWindow::quick_cmd_add()
-//{
-//    QWidget *w=new QWidget;
-//    //阻塞其他窗体
-//    w->setWindowModality(Qt::ApplicationModal);
-//    QLabel *name=new QLabel;
-//    name->setText("名称:");
-//    QLabel *content=new QLabel;
-//    content->setText("脚本:");
-//    QLineEdit *name_val=new QLineEdit;
-//    QTextEdit *shell_val=new QTextEdit;
-//    QPushButton *ok_btn=new QPushButton;
-//    ok_btn->setText("ok");
-//    ok_btn->setIcon(QIcon("://images/ok.png"));
-//    QPushButton *cancel_btn=new QPushButton;
-//    cancel_btn->setText("cancel");
-//    cancel_btn->setIcon(QIcon("://images/false.png"));
-//    QHBoxLayout *lay1=new QHBoxLayout;
-//    lay1->addWidget(name);
-//    lay1->addWidget(name_val);
-//    QHBoxLayout *lay2=new QHBoxLayout;
-//    lay2->addWidget(content);
-//    lay2->addWidget(shell_val);
-//    QHBoxLayout *lay3=new QHBoxLayout;
-//    lay3->addWidget(ok_btn);
-//    lay3->addWidget(cancel_btn);
-//    QVBoxLayout *v1=new QVBoxLayout;
-//    v1->addLayout(lay1);
-//    v1->addLayout(lay2);
-//    v1->addLayout(lay3);
-
-//    w->setLayout(v1);
-//    w->show();
-
-//    connect(ok_btn,&QPushButton::clicked,[this,w,name_val,shell_val]
-//    {
-//        this->add_quick_cmd(name_val->text(),shell_val->toPlainText());
-//        w->close();
-//    });
-//}
-//向treeWidget添加快捷指令
-//void MainWindow::add_quick_cmd(QString name,QString val)
-//{
-//    if(name=="") return;
-//    QTreeWidgetItem *head=new QTreeWidgetItem(QStringList()<<name);
-//    this->ui->treeWidget_quick_cmd->addTopLevelItem(head);
-//    QCheckBox *check=new QCheckBox;
-//    //记录父子关系
-//    this->widget_to_parentItem_map[check]=head;
-//    //连接checkbox选中的槽函数
-//    connect(check,SIGNAL(stateChanged(int)),this,SLOT(quick_cmds_check_change(int)));
-//    this->ui->treeWidget_quick_cmd->setItemWidget(head,1,check);
-//    QTreeWidgetItem *shell_content=new QTreeWidgetItem(QStringList()<<"shell");
-//    QTextEdit *shell_val=new QTextEdit;
-//    shell_val->setMaximumWidth(150);
-//    shell_val->setMaximumHeight(40);
-//    head->addChild(shell_content);
-//    shell_val->setText(val);
-//    this->ui->treeWidget_quick_cmd->setItemWidget(shell_content,1,shell_val);
-//}
-////快捷指令按钮处理的函数
-//void MainWindow::quick_cmds_check_change(int state)
-//{
-
-//    QCheckBox* check = qobject_cast<QCheckBox*>(sender());
-//    QTreeWidgetItem *parent=widget_to_parentItem_map[check];
-//    QString bash = static_cast<QTextEdit *>(ui->treeWidget_quick_cmd->itemWidget(parent->child(0),1))->toPlainText();
-//    bool is_checked = state>1 ? true : false;
-//    if(is_checked)
-//    {
-//        quick_cmd = new QProcess;
-//        quick_cmd->start("bash");
-//        qDebug() << bash;
-//        quick_cmd->write(bash.toLocal8Bit()+'\n');
-//        connect(quick_cmd,SIGNAL(readyReadStandardOutput()),this,SLOT(cmd_output()));
-//         connect(quick_cmd,SIGNAL(readyReadStandardError()),this,SLOT(cmd_error_output()));
-//    }
-//    else{
-
-
-//    }
-
-//}
-////执行一些命令的回显
-//void MainWindow::cmd_output()
-//{
-
-//    ui->cmd_output->append(quick_cmd->readAllStandardOutput());
-//}
-////执行一些命令的错误回显
-//void MainWindow::cmd_error_output()
-//{
-//    ui->cmd_output->append("<font color=\"#FF0000\">"+quick_cmd->readAllStandardError()+"</font> ");
-//}
 
 
 
@@ -882,20 +710,7 @@ void MainWindow::slot_power(float p)
 //        ui->progressBar->setStyleSheet("QProgressBar {border: 2px solid grey;border-radius: 5px;text-align: center;}");
     }
 }
-void MainWindow::slot_speed_x(double x)
-{
-    if(x>=0) ui->label_dir_x->setText("正向");
-    else ui->label_dir_x->setText("反向");
 
-//    m_DashBoardx->set_speed(abs(x*100));
-}
-void MainWindow::slot_speed_y(double x)
-{
-//    if(x>=0) ui->label_dir_y->setText("正向");
-//    else ui->label_dir_y->setText("反向");
-////    m_DashBoard_y->setValue(abs(x*100));
-//    m_DashBoardy->set_speed(0);
-}
 
 
 /*****************************************************************************
@@ -1001,7 +816,7 @@ void cyrobot_monitor::MainWindow::Rosconnect()
             ui->btn_floor_2->setEnabled(false);
 //            ui->tabWidget->setTabEnabled(0,false);
 //            ui->tabWidget->setTabEnabled(1,false);
-            ui->widget_3->setEnabled(false);
+
             return ;
         }
     }
@@ -1019,7 +834,7 @@ void cyrobot_monitor::MainWindow::Rosconnect()
             ui->btn_floor->setEnabled(false);
             ui->btn_floor_2->setEnabled(false);
             ui->tabWidget->setTabEnabled(0,false);
-            ui->widget_3->setEnabled(false);
+
             //showNoMasterMessage();
             return ;
         }
@@ -1029,7 +844,7 @@ void cyrobot_monitor::MainWindow::Rosconnect()
     ui->tabWidget->setTabEnabled(0,true);
     ui->btn_floor->setEnabled(true);
     ui->btn_floor_2->setEnabled(true);
-    ui->widget_3->setEnabled(true);
+
     //初始化rviz
     initRviz();
     
@@ -1092,20 +907,7 @@ void cyrobot_monitor::MainWindow::on_btn_config_clicked()
 {
     set->show();
 }
-//滑动条处理槽函数
-void cyrobot_monitor::MainWindow::on_horizontalSlider_raw_valueChanged(int value)
-{
-    QSettings main_setting("topic_setting","cyrobot_monitor");
-    main_setting.setValue("Slider_raw", value);
-    ui->label_raw->setText(QString::number(value));
-}
-//滑动条处理槽函数
-void cyrobot_monitor::MainWindow::on_horizontalSlider_linear_valueChanged(int value)
-{
-    QSettings main_setting("topic_setting","cyrobot_monitor");
-    main_setting.setValue("Slider_linear", value);
-    ui->label_linear->setText(QString::number(value));
-}
+
 
 
 
