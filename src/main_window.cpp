@@ -369,11 +369,6 @@ void MainWindow::initUis()
     ui->btn_floor->setEnabled(false);
     ui->btn_floor_2->setEnabled(false);
 
-//    floor
-//    ui->floor_Slider->setMaximum(main_setting.value("Floor","2").toInt());
-    //liner
-
-    ui->set_3dgoal_btn->hide();
 
 }
 
@@ -479,7 +474,7 @@ void MainWindow::connections()
     //设置2D goal
     connect(ui->set_goal_btn,SIGNAL(clicked()),this,SLOT(slot_set_2D_Goal()));
     //设置3D goal
-    connect(ui->set_3dgoal_btn,SIGNAL(clicked()),this,SLOT(slot_set_3D_Goal()));
+//    connect(ui->set_3dgoal_btn,SIGNAL(clicked()),this,SLOT(slot_set_3D_Goal()));
     //设置MoveCamera
     connect(ui->move_camera_btn,SIGNAL(clicked()),this,SLOT(slot_move_camera_btn()));
     //设置Select
@@ -967,4 +962,63 @@ void cyrobot_monitor::MainWindow::on_btn_setView_clicked()
         map_rviz_->setView(1);
         ui->btn_setView->setText("第三人称");
     }
+}
+
+void cyrobot_monitor::MainWindow::on_public_btn_clicked()
+{
+    map_rviz_->Set_Public();
+}
+
+void cyrobot_monitor::MainWindow::on_btn_top_clicked()
+{
+    int view = 2;
+    if(ui->btn_setView->text() ==  "第三人称")
+        view = 1;
+
+    map_rviz_->setViewConfig(view, 2,true);
+}
+
+void cyrobot_monitor::MainWindow::on_btn_bot_clicked()
+{
+    int view = 2;
+    if(ui->btn_setView->text() ==  "第三人称")
+        view = 1;
+
+    map_rviz_->setViewConfig(view, 2,false);
+}
+
+void cyrobot_monitor::MainWindow::on_btn_left_clicked()
+{
+    int view = 2;
+    if(ui->btn_setView->text() ==  "第三人称")
+        view = 1;
+
+    map_rviz_->setViewConfig(view, 1,false);
+}
+
+void cyrobot_monitor::MainWindow::on_btn_right_clicked()
+{
+    int view = 2;
+    if(ui->btn_setView->text() ==  "第三人称")
+        view = 1;
+
+    map_rviz_->setViewConfig(view, 1,true);
+}
+
+void cyrobot_monitor::MainWindow::on_btn_max_clicked()
+{
+    int view = 2;
+    if(ui->btn_setView->text() ==  "第三人称")
+        view = 1;
+
+    map_rviz_->setViewConfig(view, 0,true);
+}
+
+void cyrobot_monitor::MainWindow::on_btn_min_clicked()
+{
+    int view = 2;
+    if(ui->btn_setView->text() ==  "第三人称")
+        view = 1;
+
+    map_rviz_->setViewConfig(view, 0,false);
 }

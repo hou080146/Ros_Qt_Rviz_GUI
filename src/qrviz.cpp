@@ -83,6 +83,16 @@ void QRviz::setView(int flag)
 //    ui->cmb_targetFrame1->setCurrentIndex(view_setting.value("targetFrame1","0").toInt());
 //    ui->lineEdit_scale->setText(view_setting.value("scale","70").toString());
 //    ui->lineEdit_angle->setText(view_setting.value("angle","0.000").toString());
+//    ui->lineEdit_X_T->setText(view_setting.value("XT","0.785398").toString());
+//    ui->lineEdit_Y_T->setText(view_setting.value("YT","0.785398").toString());
+//    ui->lineEdit_Z_T->setText(view_setting.value("YZ","0.785398").toString());
+
+
+//    ui->lineEdit_X_D->setText(view_setting.value("XD","0.785398").toString());
+//    ui->lineEdit_Y_D->setText(view_setting.value("YD","0.785398").toString());
+
+//    ui->lineEdit_add_XY->setText(view_setting.value("addXY","0.5").toString());
+//    ui->lineEdit_add_distance->setText(view_setting.value("addDistance","0.5").toString());
     if(1 == flag)
     {
         //"rviz/TopDownOrtho"是没有Focal Point及以下的选项
@@ -97,6 +107,15 @@ void QRviz::setView(int flag)
             view_manager_->getCurrent()->subProp("Distance")->setValue(view_setting.value("distance","8").toString());
             view_manager_->getCurrent()->subProp("Yaw")->setValue(view_setting.value("yaw","0.785398").toString());
             view_manager_->getCurrent()->subProp("Pitch")->setValue(view_setting.value("pitch","0.785398").toString());
+            view_manager_->getCurrent()->subProp("Focal Point")->subProp("X")->setValue(view_setting.value("XT","0.785398").toString());
+            view_manager_->getCurrent()->subProp("Focal Point")->subProp("Y")->setValue(view_setting.value("YT","0.785398").toString());
+            view_manager_->getCurrent()->subProp("Focal Point")->subProp("Z")->setValue(view_setting.value("ZT","0.785398").toString());
+
+            distance = view_setting.value("distance","8").toDouble();
+            X_T = view_setting.value("XT","0.5").toDouble();
+            Y_T = view_setting.value("YT","0.5").toDouble();
+
+
     }else if(0 == flag)
     {
         //"rviz/TopDownOrtho"是没有Focal Point及以下的选项
@@ -120,8 +139,115 @@ void QRviz::setView(int flag)
         view_manager_->getCurrent()->subProp("Near Clip Distance")->setValue(view_setting.value("ncdistance1","0.001").toString());
         view_manager_->getCurrent()->subProp("Scale")->setValue(view_setting.value("scale","70").toString());
         view_manager_->getCurrent()->subProp("Angle")->setValue(view_setting.value("angle","0.000").toString());
+        view_manager_->getCurrent()->subProp("X")->setValue(view_setting.value("XD","0.5").toString());
+        view_manager_->getCurrent()->subProp("Y")->setValue(view_setting.value("YD","0.5").toString());
+        scale = view_setting.value("scale","8").toDouble();
+        X_T = view_setting.value("XD","0.5").toDouble();
+        X_T = view_setting.value("YD","0.5").toDouble();
     }
 
+    add_XY = view_setting.value("addXY","0.5").toDouble();//平移增量
+    add_distance = view_setting.value("addDistance","0.5").toDouble();//距离增量
+
+
+}
+
+void QRviz::setViewConfig(int view, int mode,bool b)
+{
+    QSettings view_setting("view_setting", "view_setting");
+    qDebug()<<"view: "<< view<<"mode: "<< mode<<"bool: "<< b;
+    if(view == 1)
+    {
+//        view_manager_->setCurrentFrom(view_manager_->create("rviz/ThirdPersonFollower"));
+//        view_manager_->setRenderPanel(render_panel_);
+//        view_manager_->getCurrent()->subProp("Target Frame")->setValue("base_link");
+//            view_manager_->getCurrent()->subProp("Near Clip Distance")->setValue(view_setting.value("ncdistance0","0.001").toString());
+//            view_manager_->getCurrent()->subProp("Focal Point")->setValue("1.90735e-06;-7.62939e-06;0");
+//            view_manager_->getCurrent()->subProp("Focal Shape Size")->setValue("0.05");
+//            view_manager_->getCurrent()->subProp("Focal Shape Fixed Size")->setValue("true");
+//            view_manager_->getCurrent()->subProp("Distance")->setValue(view_setting.value("distance","8").toString());
+//            view_manager_->getCurrent()->subProp("Yaw")->setValue(view_setting.value("yaw","0.785398").toString());
+//            view_manager_->getCurrent()->subProp("Pitch")->setValue(view_setting.value("pitch","0.785398").toString());
+
+        if(mode == 0)
+        {
+            if(b == true)
+            {
+                distance = distance - add_distance;
+            }else
+            {
+                distance = distance + add_distance;
+            }
+            view_manager_->getCurrent()->subProp("Distance")->setValue(distance);
+        }
+        else if(mode == 1)
+        {
+            if(b == true)
+            {
+                X_T = X_T + add_XY;
+            }else
+            {
+                X_T = X_T - add_XY;
+            }
+            view_manager_->getCurrent()->subProp("Focal Point")->subProp("X")->setValue(X_T);
+        }
+        else if(mode == 2)
+        {
+            if(b == true)
+            {
+                Y_T = Y_T - add_XY;
+            }else
+            {
+                Y_T = Y_T + add_XY;
+            }
+            view_manager_->getCurrent()->subProp("Focal Point")->subProp("Y")->setValue(Y_T);
+        }
+
+    }
+    else if(view == 2)
+    {
+
+//        view_manager_->setCurrentFrom(view_manager_->create("rviz/TopDownOrtho"));
+//        view_manager_->setRenderPanel(render_panel_);
+//        view_manager_->getCurrent()->subProp("Target Frame")->setValue("base_link");
+//        view_manager_->getCurrent()->subProp("Near Clip Distance")->setValue(view_setting.value("ncdistance1","0.001").toString());
+//        view_manager_->getCurrent()->subProp("Angle")->setValue(view_setting.value("angle","0.000").toString());
+
+        if(mode == 0)
+        {
+            if(b == true)
+            {
+                scale = scale + add_distance;
+            }else
+            {
+                scale = scale - add_distance;
+            }
+            view_manager_->getCurrent()->subProp("Scale")->setValue(scale);
+        }
+        else if(mode == 1)
+        {
+            if(b == true)
+            {
+                X_D = X_D + add_XY;
+            }else
+            {
+                X_D = X_D - add_XY;
+            }
+            view_manager_->getCurrent()->subProp("X")->setValue(X_D);
+        }
+        else if(mode == 2)
+        {
+            if(b == true)
+            {
+                Y_D = Y_D + add_XY;
+            }else
+            {
+                Y_D = Y_D - add_XY;
+            }
+            view_manager_->getCurrent()->subProp("Y")->setValue(Y_D);
+        }
+    }
+    view_manager_->getCurrent()->activate();
 }
 
 QRviz::~QRviz()
@@ -387,6 +513,12 @@ int QRviz::GetDisplayNumName(QString name)
 
      manager_->startUpdate();//更新所有图层
 
+ }
+ void QRviz::Set_Public()
+ {
+     current_tool = tool_manager_->addTool("rviz/PublishPoint");
+     tool_manager_->setCurrentTool( current_tool );
+     manager_->startUpdate();
  }
  void QRviz::Set_MoveCamera()
  {

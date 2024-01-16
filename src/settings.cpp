@@ -67,11 +67,20 @@ void Settings::initForm()
     ui->lineEdit_distance->setText(view_setting.value("distance","8").toString());
     ui->lineEdit_yaw->setText(view_setting.value("yaw","0.785398").toString());
     ui->lineEdit_pitch->setText(view_setting.value("pitch","0.785398").toString());
+    ui->lineEdit_X_T->setText(view_setting.value("XT","0.785398").toString());
+    ui->lineEdit_Y_T->setText(view_setting.value("YT","0.785398").toString());
+    ui->lineEdit_Z_T->setText(view_setting.value("YZ","0.785398").toString());
 
     ui->lineEdit_ncdistance1->setText(view_setting.value("ncdistance1","0.001").toString());
     ui->cmb_targetFrame1->setCurrentIndex(view_setting.value("targetFrame1","0").toInt());
     ui->lineEdit_scale->setText(view_setting.value("scale","70").toString());
     ui->lineEdit_angle->setText(view_setting.value("angle","0.000").toString());
+    ui->lineEdit_X_D->setText(view_setting.value("XD","0.785398").toString());
+    ui->lineEdit_Y_D->setText(view_setting.value("YD","0.785398").toString());
+
+    ui->lineEdit_add_XY->setText(view_setting.value("addXY","0.5").toString());
+    ui->lineEdit_add_distance->setText(view_setting.value("addDistance","0.5").toString());
+
 
     int m_style = main_setting.value("Style", "0").toInt();
     ui->cbx_style->setCurrentIndex(m_style);
@@ -179,6 +188,15 @@ void Settings::slot_ok_btn_click()
     view_setting.setValue("targetFrame1", ui->cmb_targetFrame1->currentIndex());
     view_setting.setValue("scale", ui->lineEdit_scale->text());
     view_setting.setValue("angle", ui->lineEdit_angle->text());
+
+    view_setting.setValue("XT", ui->lineEdit_X_T->text());
+    view_setting.setValue("YT", ui->lineEdit_Y_T->text());
+    view_setting.setValue("YZ", ui->lineEdit_Z_T->text());
+
+    view_setting.setValue("XD", ui->lineEdit_X_D->text());
+    view_setting.setValue("YD", ui->lineEdit_Y_D->text());
+    view_setting.setValue("addXY", ui->lineEdit_add_XY->text());
+    view_setting.setValue("addDistance", ui->lineEdit_add_distance->text());
 
 //    ui->lineEdit_ncdistance_2->setValue(view_setting.value("ncdistance1","").toDouble());
 //    ui->cmb_targetFrame_2->setCurrentIndex(view_setting.value("targetFrame1","").toInt());

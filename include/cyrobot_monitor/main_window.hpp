@@ -138,6 +138,27 @@ protected:
 
 
 private slots:
+        void on_btn_min_clicked();
+
+private slots:
+        void on_btn_max_clicked();
+
+private slots:
+        void on_btn_right_clicked();
+
+private slots:
+        void on_btn_left_clicked();
+
+private slots:
+        void on_btn_bot_clicked();
+
+private slots:
+        void on_btn_top_clicked();
+
+private slots:
+        void on_public_btn_clicked();
+
+private slots:
         void on_btn_setView_clicked();
 
 private slots:

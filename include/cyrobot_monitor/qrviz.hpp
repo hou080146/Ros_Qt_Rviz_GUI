@@ -86,6 +86,7 @@ public:
     void Set_Goal();
     void Set_MoveCamera();
     void Set_Select();
+    void Set_Public();
     //发布goal话题的坐标
 //    void Send_Goal_topic();
 
@@ -94,6 +95,8 @@ public:
     void GetDisplayTreeModel();
 
     void setView(int flag);
+
+    void setViewConfig(int view,int mode, bool b);
     
 signals:
     void ReturnModelSignal(QAbstractItemModel *model);
@@ -139,6 +142,17 @@ private:
     QMap<QString, QVariant> nullmap;
 
 
+    //视角平移和放大缩小
+    double X_T;//第三人称
+    double Y_T;
+    double distance;
+
+    double X_D;//俯视角
+    double Y_D;
+    double scale;
+
+    double add_XY;//平移增量
+    double add_distance;//距离增量
 
 private slots:
     void addTool( rviz::Tool* );
